@@ -35,8 +35,6 @@
                 <label for="password">Password</label>
                 <input type="text" id="password" name="password" placeholder="User Password">
 
-                
-                    
                     <input type="submit" value="Login" name="gonder"></input>
                     
                                     

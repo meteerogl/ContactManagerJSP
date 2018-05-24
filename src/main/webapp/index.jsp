@@ -73,12 +73,7 @@
     
     
 %>
-<%
-    //SEÇİLEN NUMARAYI VERİTABANINDAN SİLME İŞLEMLERİ
-    
 
-
-%>
     <div class="header">
         <a href="#default" class="logo">Contacts Manager</a>
         <div class="header-right">
@@ -171,10 +166,17 @@ while(rs.next())
         
 <%
         String delete    =request.getParameter("delete");
+       
         out.println(delete);
         if(delete != null)
         {
-            out.println("null değil");
+            int delete_int = Integer.parseInt(delete);
+            out.println(delete_int);
+            String sql1 = "delete  from contacts where id=?";
+            PreparedStatement pst1 = conn.prepareStatement(sql1);
+            pst1.setInt(1, delete_int);
+            pst1.execute();
+            System.out.print("silindi");
         }
 %>
                 
