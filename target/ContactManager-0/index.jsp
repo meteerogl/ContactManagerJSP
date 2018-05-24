@@ -22,16 +22,19 @@
     String update = request.getParameter("update");
     
     String kontrol="gonder";//Submit butonundaki değişiklikler için 
+    int update_id=0;
     String addcontact="Add New Contact";
     String place_firstname ="firstname";
     String place_lastname ="lastname";
     String place_city ="city";
     String place_tnumber ="tnumber";
     String place_email ="email";
+    boolean update1 =(request.getParameter("update1") == null);
+    int ab=0;
     if(update!=null)
     {   
-        
-        int ab = Integer.parseInt(request.getParameter("update"));
+        out.println(ab);
+        ab = Integer.parseInt(request.getParameter("update"));
         kontrol = "update1";//Submit butonu değişir
         out.println(ab);
         Database db1 = new Database();
@@ -46,15 +49,23 @@
             ResultSet rs1 = pst1.executeQuery();
             while(rs1.next())
             {
+                update_id = rs1.getInt(2);
                 addcontact = "Update: "+rs1.getString(3);
                 place_firstname = rs1.getString(3);
                 place_lastname = rs1.getString(4);
                 place_city = rs1.getString(5);
                 place_tnumber = rs1.getString(6);
                 place_email = rs1.getString(7);
-                
-                
+
+                session.setAttribute("userId", update_id);
+                session.setAttribute("place_firstname", place_firstname);
+                session.setAttribute("place_lastname", place_lastname);
+                session.setAttribute("place_city", place_city);
+                session.setAttribute("place_tnumber", place_tnumber);
+                session.setAttribute("place_email", place_email);
+                   
             }
+            
         }
         catch(SQLException se)
         {
@@ -65,14 +76,78 @@
             e.printStackTrace();
         }
     }
-        boolean update1 =(request.getParameter("update1") == null);
-        if(!update1)
+    if(!update1)
         {
-            out.println(request.getParameter("update1"));
-            out.println("update İŞLEMLERİ");
-   
+            out.println("asdasdsa");
+            int user_id= (Integer)session.getAttribute("userId");
+            out.println(user_id);
+            Database db = new Database();
+            Connection conn1 = db.connection();
+            Statement stmt = null;
+            String sql_update = "UPDATE Contacts SET firstname=?, lastname=?, city=?, tnumber=?,email=? WHERE id=?";
+            PreparedStatement pst = conn1.prepareStatement(sql_update);
+            place_firstname = (String) session.getAttribute("place_firstname");
+            place_lastname = (String) session.getAttribute("place_lastname");
+            place_city = (String) session.getAttribute("place_city");
+            place_tnumber = (String) session.getAttribute("place_tnumber");
+            place_email = (String) session.getAttribute("place_email");
+            if(request.getParameter("firstname").equals(""))
+            {
+                place_firstname = (String) session.getAttribute("place_firstname");
+            }
+            else
+            {
+                place_firstname = request.getParameter("firstname");
+            }
+            
+            
+            if(request.getParameter("lastname").equals(""))
+            {
+                place_lastname = (String) session.getAttribute("place_lastname");
+            }
+            else
+            {
+                place_lastname = request.getParameter("lastname");
+            }
+            
+            if(request.getParameter("city").equals(""))
+            {
+                place_city = (String) session.getAttribute("place_city");
+            }
+            else
+            {
+                place_city = request.getParameter("city");
+            }
+            
+            if(request.getParameter("tnumber").equals(""))
+            {
+                place_tnumber = (String) session.getAttribute("place_tnumber");
+            }
+            else
+            {
+                place_tnumber = request.getParameter("tnumber");
+            }
+            
+            if(request.getParameter("email").equals(""))
+            {
+                place_email = (String) session.getAttribute("place_email");
+            }
+            else
+            {
+                place_email = request.getParameter("email");
+            }
+
+            
+            pst.setString(1,place_firstname);
+            pst.setString(2,place_lastname);
+            pst.setString(3,place_city);
+            pst.setString(4,place_tnumber);
+            pst.setString(5,place_email);
+            pst.setInt(6, user_id);
+            pst.executeUpdate();
+            response.sendRedirect("index.jsp");
+            
         }
-    
 
 %>
 <%
@@ -166,9 +241,11 @@
                 <input type="text" id="tnumber" name="tnumber" placeholder="<%=place_tnumber%>">
 
                 <label for="email">E Mail</label>
-                <input type="text" id="email" name="email" placeholder="<%=place_email%>">
+                <input type="text"  id="email" name="email" placeholder="<%=place_email%>">
                     
                 <input type="submit" value="<%=kontrol%>" name="<%=kontrol%>">
+                
+                
                     
                 <% if(kayıt_mesaj_kontrol)
                     {
@@ -232,12 +309,5 @@ while(rs.next())
         }
 %>
 </form>          
-        
-
-                
-  
-    
-    
-    
     </body>
 </html>
