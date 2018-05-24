@@ -33,7 +33,7 @@ public class Database
     
     
     
-    public void connection()
+    public Connection connection()
     {
         try
         {
@@ -49,6 +49,7 @@ public class Database
         {
             e.printStackTrace();
         }
+        return conn;
         
     }
     public void create(int kullanıcı_id,String firstname,String lastname, String city, String tnumber, String email)

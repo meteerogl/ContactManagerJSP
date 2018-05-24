@@ -15,29 +15,20 @@
     <link rel="stylesheet" type="text/css" href="style.css"></link>
 </head>
 <%
-    String username    =request.getParameter("username");
-    String password    =request.getParameter("password");
-    String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-    String DB_URL = "jdbc:mysql://localhost:3306/contactmanager?useUnicode=yes&characterEncoding=UTF-8";
-    String USER = "mete";
-    String PASS = "metemete";
-    Connection conn = null;
-    Statement stmt = null;
-    session.setAttribute("isim", username);
-    session.setAttribute("sifre", password);
     Database db = new Database();
+    Connection conn = db.connection();
+    String username    =request.getParameter("username");//ilk sayfadakı kullanıcı ismi ve bilgileri getirmek için
+    String password    =request.getParameter("password");
+    Statement stmt = null;
     int id = db.login(username, password);
     session.setAttribute("key", username);
     session.setAttribute("id", id);
     try
         {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
             stmt = conn.createStatement();
             PreparedStatement pst = conn.prepareStatement("Select * from users where username=? and sifre=?");
             pst.setString(1, username);
             pst.setString(2, password);
-            
             ResultSet rs = pst.executeQuery();
             if(rs.next())
             {%>
