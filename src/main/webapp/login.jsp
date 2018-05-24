@@ -19,9 +19,9 @@
     <div class="header">
         <a href="#default" class="logo">Contacts Manager</a>
         <div class="header-right">
-            <a class="active" href="#home">Home</a>
+            
             <a href="register.jsp">Register</a>
-            <a href="#login">Login</a>
+            <a class="active" href="login.jsp">Login</a>
             <a href="About">About</a>
         </div>
     </div>

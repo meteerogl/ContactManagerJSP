@@ -19,8 +19,8 @@
     <body>
 <%
         //VERİTABANINA YENİ BİR KAYIT EKLEMEK İÇİN BU KISIM
-        out.println(session.getAttribute("key"));
-        out.println(session.getAttribute("id"));
+        //out.println(session.getAttribute("key"));
+        //out.println(session.getAttribute("id"));
         int kullanıcı_id = (Integer)session.getAttribute("id");
         
         String firstname    =request.getParameter("firstname");
@@ -73,13 +73,28 @@
     
     
 %>
+<%
+    //VERİTABANINDAN İLGİLİ NUMARAYI SİLMEK İÇİN DEVAM
+        String delete    =request.getParameter("delete");
+       
+        //out.println(delete);
+        if(delete != null)
+        {
+            int delete_int = Integer.parseInt(delete);
+            //ut.println(delete_int);
+            String sql1 = "delete  from contacts where id=?";
+            PreparedStatement pst1 = conn.prepareStatement(sql1);
+            pst1.setInt(1, delete_int);
+            pst1.execute();
+            response.sendRedirect("index.jsp");
+        }
+%>
 
     <div class="header">
         <a href="#default" class="logo">Contacts Manager</a>
         <div class="header-right">
-            <a class="active" href="#home">Home</a>
-            <a href="register.jsp">Register</a>
-            <a href="login.jsp">Login</a>
+            <a class="active" href="index.jsp">Home</a>
+            <a href="login.jsp">Logout</a>
             <a href="About">About</a>
         </div>
     </div>
@@ -122,7 +137,11 @@
 <form  method="post">
     <table>
         <tr>
-            <td>Name</td>
+            <td class="a">First Name</td>
+            <td class="a">Last Name</td>
+            <td class="a">City</td>
+            <td class="a">Telephone Number</td>
+            <td class="a">E Mail</td>
            
         </tr>
         
@@ -141,8 +160,8 @@ while(rs.next())
             <td><%out.println(rs.getString(7));%></td>
             
         <form action="index.jsp">
-            <td><input type="submit" value="<%=a%>" name="delete"></input></td>
-            <td><input type="submit" value="submit" name="gonder"></input></td>  
+            <td><button class="button" type="submit" name="delete" onclick="return confirm('Are you sure you want to delete this contact?');"  value="<%=a%>">DELETE</button></td>
+            <td><button class="button" type="submit" name="update"  value="<%=a%>">UPDATE</button></td> 
   
         </form>
                  
@@ -164,21 +183,7 @@ while(rs.next())
 %>
 </form>          
         
-<%
-        String delete    =request.getParameter("delete");
-       
-        out.println(delete);
-        if(delete != null)
-        {
-            int delete_int = Integer.parseInt(delete);
-            out.println(delete_int);
-            String sql1 = "delete  from contacts where id=?";
-            PreparedStatement pst1 = conn.prepareStatement(sql1);
-            pst1.setInt(1, delete_int);
-            pst1.execute();
-            System.out.print("silindi");
-        }
-%>
+
                 
   
     

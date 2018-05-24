@@ -99,6 +99,20 @@ table {
     border-collapse: collapse;
     width: 100%;
 }
-td {
+.a{
     text-align: left;
+    color: #4CAF50;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 1px 1px;
+    cursor: pointer;
+    border-radius: 2px;
 }
