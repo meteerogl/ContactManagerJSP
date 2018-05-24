@@ -4,8 +4,11 @@
     Author     : mete
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.Database" %>
+<%@page import="java.sql.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,7 +18,7 @@
     </head>
     <body>
 <%
-        
+        //VERİTABANINA YENİ BİR KAYIT EKLEMEK İÇİN BU KISIM
         out.println(session.getAttribute("key"));
         out.println(session.getAttribute("id"));
         int kullanıcı_id = (Integer)session.getAttribute("id");
@@ -43,6 +46,37 @@
             
         }
         
+
+%>
+<%
+    //VERİTABANINDAN İLGİLİ KULLANICININ REHBERİNİ ÇEKMEK İÇİN BU KISIM VE EN AŞŞAĞIDAKİ KISIM VAR DEVAMI
+    String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+    String DB_URL = "jdbc:mysql://localhost:3306/contactmanager?useUnicode=yes&characterEncoding=UTF-8";
+    String USER = "mete";
+    String PASS = "metemete";
+    Connection conn = null;
+    Statement stmt = null;
+    try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            stmt = conn.createStatement();
+            String sql = "Select * from contacts where kullanıcı_id=?";
+            
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, kullanıcı_id);
+            ResultSet rs = pst.executeQuery();
+            
+           
+            
+        
+    
+    
+%>
+<%
+    //SEÇİLEN NUMARAYI VERİTABANINDAN SİLME İŞLEMLERİ
+    
+
 
 %>
     <div class="header">
@@ -89,15 +123,60 @@
     </div>
     <div class="sağ">
         <h1>Contacts</h1>
-        <p>First Contact</p>
-        <p>First Contact</p>
-        <p>First Contact</p>
-        <p>First Contact</p>
-        <p>First Contact</p>
-        <p>First Contact</p>
-        <p>First Contact</p>
+
+<form  method="post">
+    <table>
+        <tr>
+            <td>Name</td>
+           
+        </tr>
         
-    </div>
+<%
+    
+while(rs.next())
+{           
+           
+            int a = rs.getInt(2);
+%>
+        <tr> 
+            <td><%out.println(rs.getString(3));%></td>
+            <td><%out.println(rs.getString(4));%></td>
+            <td><%out.println(rs.getString(5));%></td>
+            <td><%out.println(rs.getString(6));%></td>
+            <td><%out.println(rs.getString(7));%></td>
+            
+        <form action="index.jsp">
+            <td><input type="submit" value="<%=a%>" name="delete"></input></td>
+            <td><input type="submit" value="submit" name="gonder"></input></td>  
+  
+        </form>
+                 
+        </tr>
+        <%}%> 
+    </table>
+
+ <%    
+    }
+        catch(SQLException se)
+        {
+            se.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+%>
+</form>          
+        
+<%
+        String delete    =request.getParameter("delete");
+        out.println(delete);
+        if(delete != null)
+        {
+            out.println("null değil");
+        }
+%>
                 
   
     

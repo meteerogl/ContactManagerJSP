@@ -18,7 +18,7 @@
     String username    =request.getParameter("username");
     String password    =request.getParameter("password");
     String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-    String DB_URL = "jdbc:mysql://localhost/contactmanager";
+    String DB_URL = "jdbc:mysql://localhost:3306/contactmanager?useUnicode=yes&characterEncoding=UTF-8";
     String USER = "mete";
     String PASS = "metemete";
     Connection conn = null;
