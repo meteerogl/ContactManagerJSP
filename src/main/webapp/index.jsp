@@ -258,10 +258,11 @@
         </div>
     </div>
     <div class="sağ">
+        <input type="text" id="arama" onkeyup="myFunction()" placeholder="Search for names..">
         <h1>Contacts</h1>
 
 <form  method="post">
-    <table>
+    <table id="tablo"> 
         <tr>
             <td class="a">First Name</td>
             <td class="a">Last Name</td>
@@ -308,6 +309,27 @@ while(rs.next())
             e.printStackTrace();
         }
 %>
-</form>          
+</form>
+<script>
+    //ARAMA BUTONUNUN JS KODLARI
+    //İLGİLİ KELİMENİN ARAMASININ YAPILIP VERİNİN YANSITILMASI İÇİN
+function myFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("arama");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("tablo");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
     </body>
 </html>
