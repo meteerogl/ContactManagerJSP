@@ -33,10 +33,10 @@
     int ab=0;
     if(update!=null)
     {   
-        out.println(ab);
+        //out.println(ab);
         ab = Integer.parseInt(request.getParameter("update"));
         kontrol = "update1";//Submit butonu değişir
-        out.println(ab);
+        //out.println(ab);
         Database db1 = new Database();
         Connection conn1 = db1.connection();
         Statement stmt1 = null;
@@ -78,9 +78,9 @@
     }
     if(!update1)
         {
-            out.println("asdasdsa");
+            //out.println("asdasdsa");
             int user_id= (Integer)session.getAttribute("userId");
-            out.println(user_id);
+            //out.println(user_id);
             Database db = new Database();
             Connection conn1 = db.connection();
             Statement stmt = null;
@@ -167,7 +167,7 @@
         boolean kayıt_mesaj_kontrol = false;
         if(!gonder)
         {
-            out.println(gonder);
+            //out.println(gonder);
             new_Contact.setFirstname(firstname);
             new_Contact.setLastname(lastname);
             new_Contact.setCity(city);
@@ -247,7 +247,7 @@
                 
                 
                     
-                <% if(kayıt_mesaj_kontrol)
+                <% if(!kayıt_mesaj_kontrol)
                     {
                         out.println("Success!");
                     }
